@@ -2,7 +2,7 @@
 
 Simple Python 3 wrapper for [Pushwoosh API](https://docs.pushwoosh.com/platform-docs/api-reference/)
 
-NOTE: This is ungoing unofficial project, provided AS IS and supported on best effort basis.
+NOTE: This is ongoing unofficial project, provided AS IS and supported on best effort basis.
 
 
 Quick start
