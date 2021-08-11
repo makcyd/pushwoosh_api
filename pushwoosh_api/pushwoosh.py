@@ -418,3 +418,62 @@ class Pushwoosh:
             "device_type": device_type
         }
         return self._send_request(uri=uri, request=request)
+
+    def list_presets(self, application):
+        """
+        List Push presets as per https://docs.pushwoosh.com/platform-docs/api-reference/presets#listpresets
+        :param application:  application code (AAAAA-BBBBB)
+        :return: list of preset objects or request object in case of error
+        """
+        uri = "listPresets"
+        request = {
+            "application": application
+        }
+        return self._send_request(uri=uri, request=request).get("response")
+
+    def get_preset(self, preset_code):
+        """
+        Get preset configuration by its code as per
+        https://docs.pushwoosh.com/platform-docs/api-reference/presets#getpreset
+        :param preset_code: preset code (AAAAA-BBBBB)
+        :return: preset dictionary or request object in case of error
+        """
+        uri = "getPreset"
+        request = {
+            "preset_code": preset_code
+        }
+        return self._send_request(uri=uri, request=request).get("response")
+
+    def create_preset(self, name, application_code, content, scheduling=None, segmentation=None, campaign_code=None):
+        """
+        Create preset https://docs.pushwoosh.com/platform-docs/api-reference/presets#createpreset
+        :param name: name of the preset to be displayed in control panel
+        :param application_code: application code (AAAAA-BBBBB)
+        :param content: content dictionary. IMPORTANT: read the API description for the content structure
+        :param scheduling: (optional) scheduling parameters dictionary
+        :param segmentation: (optional) segmentation parameters dictionary
+        :param campaign_code: (optional) campaign code
+        :return: response object
+        """
+        uri = "createPreset"
+        request = {
+            "name": name,
+            "applicationCode": application_code,
+            "campaignCode": campaign_code,
+            "content": content,
+            "scheduling": scheduling,
+            "segmentation": segmentation
+        }
+        return self._send_request(uri=uri, request=request)
+
+    def delete_preset(self, preset_code):
+        """
+        Delete preset as per https://docs.pushwoosh.com/platform-docs/api-reference/presets#deletepreset
+        :param preset_code: preset code (AAAAA-BBBBB) to be deleted
+        :return: response object
+        """
+        uri = "deletePreset"
+        request = {
+            "preset_code": preset_code
+        }
+        return self._send_request(uri=uri, request=request)
