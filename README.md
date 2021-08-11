@@ -21,7 +21,7 @@ Quick start
     
     p = Pushwoosh(api_endpoint="https://cp.pushwoosh.com/json/1.3", api_key="<YOUR KEY HERE>")
     
-    message_history = p.get_push_history()
+    message_history = p.get_all_push_history()
     
     for message in message_history:
         print("[{}] {}".format(message["id"], message["content"]))
