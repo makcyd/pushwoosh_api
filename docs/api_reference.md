@@ -17,15 +17,15 @@ Messages
 
 Presets
 -------
-* /createPreset
-* /getPreset
-* /listPresets
-* /deletePreset
+* /createPreset [+]
+* /getPreset [+]
+* /listPresets [+]
+* /deletePreset [+]
 
 
 Devices
 -------
-* /registerDevice
+* /registerDevice [+]
 * /unregisterDevice [+]
 * /deleteDevice [+]
 * /checkDevice
@@ -58,7 +58,7 @@ Filters
 
 User-Centric API
 ----------------
-* /registerUser
+* /registerUser [+]
 * /unregisterUser (undocumented)
 * /getUsersDetails (async, getResults)
 

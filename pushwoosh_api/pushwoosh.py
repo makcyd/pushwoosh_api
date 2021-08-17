@@ -26,7 +26,7 @@ class Pushwoosh:
         self.api_key = api_key
         self.api_endpoint = api_endpoint
 
-    @retry
+    #@retry
     def _send_request(self, uri, request):
         # noinspection SpellCheckingInspection
         """
@@ -289,6 +289,28 @@ class Pushwoosh:
             "count": count
         }
         return self._send_request(uri=uri, request=request).get("response")
+
+    def register_device(self, application, hwid, push_token, device_type, language=None, timezone=None):
+        """
+        Register device as per https://docs.pushwoosh.com/platform-docs/api-reference/device-api#registerdevice
+        :param application: application_code (AAAAA-BBBBB)
+        :param hwid: unique ID for the device, could be uuid64
+        :param push_token: a valid push token
+        :param device_type: type 1 - iOS, 3 - Android, 10 - Safari, 11 - Chrome, 12 - Firefox
+        :param language: optional, string in ISO 639-1|639-2 language code
+        :param timezone: optional, timezone offset in seconds
+        :return: response object
+        """
+        uri = "registerDevice"
+        request = {
+            "application": application,
+            "hwid": hwid,
+            "push_token": push_token,
+            "device_type": device_type,
+            "language": language,
+            "timezone": timezone
+        }
+        return self._send_request(uri=uri, request=request)
 
     def unregister_device(self, application, hwid):
         """
