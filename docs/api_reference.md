@@ -82,9 +82,9 @@ Applications
 
 Campaigns
 ---------
-* /createCampaign
-* /getCampaign
-* /deleteCampaign
+* /createCampaign [+]
+* /getCampaign [+]
+* /deleteCampaign [+]
 
 
 Geozones

@@ -466,11 +466,11 @@ class Pushwoosh:
         }
         return self._send_request(uri=uri, request=request).get("response")
 
-    def create_preset(self, name, application_code, content, scheduling=None, segmentation=None, campaign_code=None):
+    def create_preset(self, name, application, content, scheduling=None, segmentation=None, campaign_code=None):
         """
         Create preset https://docs.pushwoosh.com/platform-docs/api-reference/presets#createpreset
         :param name: name of the preset to be displayed in control panel
-        :param application_code: application code (AAAAA-BBBBB)
+        :param application: application code (AAAAA-BBBBB)
         :param content: content dictionary. IMPORTANT: read the API description for the content structure
         :param scheduling: (optional) scheduling parameters dictionary
         :param segmentation: (optional) segmentation parameters dictionary
@@ -480,7 +480,7 @@ class Pushwoosh:
         uri = "createPreset"
         request = {
             "name": name,
-            "applicationCode": application_code,
+            "applicationCode": application,
             "campaignCode": campaign_code,
             "content": content,
             "scheduling": scheduling,
@@ -497,5 +497,50 @@ class Pushwoosh:
         uri = "deletePreset"
         request = {
             "preset_code": preset_code
+        }
+        return self._send_request(uri=uri, request=request)
+
+    def get_campaigns(self, application, cursor=None, limit=None):
+        """
+        Get a list of campaigns as per https://docs.pushwoosh.com/platform-docs/api-reference/campaigns#getcampaigns
+        :param application: application code (AAAAA-BBBBB) to retrieve campaigns for
+        :param cursor: (optional) the ID of the last campaign from the previous request (works as paginator)
+        :param limit: (optional) the number of campaigns to return in one response, by default all are returned.
+                    May be used together with cursor parameter.
+        :return: list of presets or response object
+        """
+        uri = "getCampaigns"
+        request = {
+            "application": application,
+            "cursor": cursor,
+            "limit": limit
+        }
+        return self._send_request(uri=uri, request=request).get("response")
+
+    def create_campaign(self, application, name, description=None):
+        """
+        Creates campaign as per https://docs.pushwoosh.com/platform-docs/api-reference/campaigns#createcampaign
+        :param application: application code (AAAAA-BBBBB) to create campaign for.
+        :param name: name for the campaign.
+        :param description: (optional) human-readable description to be displayed in PW interface
+        :return: response object with campaign ID
+        """
+        uri = "createCampaign"
+        request = {
+            "application": application,
+            "name": name,
+            "description": description
+        }
+        return self._send_request(uri=uri, request=request)
+
+    def delete_campaign(self, campaign):
+        """
+        Deletes campaign as per https://docs.pushwoosh.com/platform-docs/api-reference/campaigns#deletecampaign
+        :param campaign: ID of the campaign to be deleted
+        :return: response object
+        """
+        uri = "deleteCampaign"
+        request = {
+            "campaign": campaign
         }
         return self._send_request(uri=uri, request=request)
