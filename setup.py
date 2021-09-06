@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="pushwoosh_api",
-    version="0.0.9",
+    version="0.0.10",
     description="Python wrapper for Pushwoosh API",
     url="https://docs.pushwoosh.com/platform-docs/api-reference/",
     author="Max Sudyin",
