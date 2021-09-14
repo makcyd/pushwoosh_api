@@ -546,3 +546,28 @@ class Pushwoosh:
             "campaign": campaign
         }
         return self._send_request(uri=uri, request=request)
+
+    def set_tags(self, application, tags, hwid=None, user_id=None):
+        """
+        Set device or user tags as per https://docs.pushwoosh.com/platform-docs/api-reference/device-api#set-tags
+        :param application: application code (AAAAA-BBBBB)
+        :param tags: dictionary with tag values to be set. For list tags "operation" is supported as well.
+        :param hwid: HWID for the device where tags have to be set. Used for device-specific tags only.
+        :param user_id: User ID for the user-specific tag setting.
+        :return: response object
+        """
+        if hwid is None and user_id is None:
+            raise(RequiredParametersError([hwid, user_id], "Either hwid or user id have to be provided"))
+
+        uri = "setTags"
+        request = {
+            "application": application,
+            "tags": tags
+        }
+
+        if hwid is not None:
+            request["hwid"] = hwid
+        if user_id is not None:
+            request["userId"] = user_id
+
+        return self._send_request(uri=uri, request=request)

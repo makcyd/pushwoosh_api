@@ -21,3 +21,11 @@ class HttpError(PushwooshException):
         self.status_code = status_code
         self.reason = reason
         self.message = message
+
+class RequiredParametersError(PushwooshException):
+    """
+    Exception raised when not all required parameters are passed to the function
+    """
+    def __init__(self, values, message):
+        self.values = values
+        self.message = message
