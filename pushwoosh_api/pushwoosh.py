@@ -575,8 +575,8 @@ class Pushwoosh:
     """
     Hidden API method to bulk register devices
     """
-    def bulk_register_device(self, application, devices):
-        uri = "bulkRegisterDevice"
+    def bulk_register_devices(self, application, devices):
+        uri = "bulkRegisterDevices"
         request = {
             "application": application,
             "devices": devices
