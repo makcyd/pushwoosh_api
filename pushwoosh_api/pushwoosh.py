@@ -520,7 +520,7 @@ class Pushwoosh:
         return self._send_request(uri=uri, request=request).get("response")
 
     def create_campaign(self, application, name, description=None):
-        """
+        """й
         Creates campaign as per https://docs.pushwoosh.com/platform-docs/api-reference/campaigns#createcampaign
         :param application: application code (AAAAA-BBBBB) to create campaign for.
         :param name: name for the campaign.
@@ -569,5 +569,17 @@ class Pushwoosh:
             request["hwid"] = hwid
         if user_id is not None:
             request["userId"] = user_id
+
+        return self._send_request(uri=uri, request=request)
+
+    """
+    Hidden API method to bulk register devices
+    """
+    def bulk_register_device(self, application, devices):
+        uri = "bulkRegisterDevice"
+        request = {
+            "application": application,
+            "devices": devices
+        }
 
         return self._send_request(uri=uri, request=request)
