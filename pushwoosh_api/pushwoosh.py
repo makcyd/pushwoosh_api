@@ -557,7 +557,7 @@ class Pushwoosh:
         :return: response object
         """
         if hwid is None and user_id is None:
-            raise(RequiredParametersError([hwid, user_id], "Either hwid or user id have to be provided"))
+            raise (RequiredParametersError([hwid, user_id], "Either hwid or user id have to be provided"))
 
         uri = "setTags"
         request = {
@@ -575,7 +575,31 @@ class Pushwoosh:
     """
     Hidden API method to bulk register devices
     """
+
     def bulk_register_devices(self, application, devices):
+        """
+        :param application:
+        :param devices:
+        :return:
+
+        "devices": [
+          {
+            "push_token": "ckxv27aNjOI:APA91bEQwYdBrIx_pmGBN2Fm_2-kmrx-QTq5TUxxSu2Cu9DtlDkgnRJLF_gTbXgmyhqgN3PkbkMGP2D1scqyYZ61fORnDu42ZF3pFp5ggWCD2fpBc8SdKczUnHWqkMPpDKqKwC-eFg3A",
+            "hwid": "c96cfafa-2257-4b03-a575-aa00a5642334",
+            "timezone": 7200,
+            "device_type": 3,
+            "language": "en",
+            "userId": "c96cfafa-2257-4b03-a575-aa00a5642334",
+            "app_version": "1.3.2",
+            "device_model": "Samsung SM-J400F",
+            "jailbroken": 0,
+            "os_version": "10",
+            "v": "5.18.2",
+            "notificationTypes": 6,
+            "clientIP": "134.0.59.22",
+            "sounds": []
+          },]
+        """
         uri = "bulkRegisterDevices"
         request = {
             "application": application,
@@ -583,3 +607,59 @@ class Pushwoosh:
         }
 
         return self._send_request(uri=uri, request=request)
+
+    def get_message_log(self, message_id=None, message_code=None, campaign_code=None, hwid=None,
+                        date_from=None, date_to=None, pagination_token=None, limit=1000):
+        # TODO: Add checks for mandatory parameters
+        uri = "getMessageLog"
+        request = {
+            "pagination_token": pagination_token,
+            "limit": limit,
+            "message_id": message_id,
+            "message_code": message_code,
+            "campaign_code": campaign_code,
+            "date_from": date_from,
+            "date_to": date_to,
+            "hwid": hwid
+        }
+
+        response = self._send_request(uri=uri, request=request)
+
+        if response.get("status_code") == 200:
+            result = response.get("response").get("result")
+            return result.__len__(), response["response"].get("pagination_token"), result
+        else:
+            return 0, None, response
+
+    def get_all_message_log(self, message_id=None, message_code=None, campaign_code=None, hwid=None,
+                            date_from=None, date_to=None):
+        result = []
+        pagination_token = None
+
+        while True:
+            num, pagination_token, res = self.get_message_log(message_id=message_id, message_code=message_code,
+                                                              campaign_code=campaign_code, hwid=hwid, date_from=date_from,
+                                                              date_to=date_to, pagination_token=pagination_token,
+                                                              limit=1000)
+            result += res
+
+            if pagination_token is None:
+                break
+        return result
+
+    def get_message_log_generator(self, message_id=None, message_code=None, campaign_code=None, hwid=None,
+                                  date_from=None, date_to=None):
+        pagination_token = None
+
+        while True:
+            num, pagination_token, res = self.get_message_log(message_id=message_id, message_code=message_code,
+                                                              campaign_code=campaign_code, hwid=hwid, date_from=date_from,
+                                                              date_to=date_to, pagination_token=pagination_token,
+                                                              limit=1000)
+            try:
+                yield res
+            except StopIteration:
+                return
+
+            if pagination_token is None:
+                return
