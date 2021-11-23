@@ -520,7 +520,7 @@ class Pushwoosh:
         return self._send_request(uri=uri, request=request).get("response")
 
     def create_campaign(self, application, name, description=None):
-        """й
+        """
         Creates campaign as per https://docs.pushwoosh.com/platform-docs/api-reference/campaigns#createcampaign
         :param application: application code (AAAAA-BBBBB) to create campaign for.
         :param name: name for the campaign.
@@ -557,7 +557,7 @@ class Pushwoosh:
         :return: response object
         """
         if hwid is None and user_id is None:
-            raise (RequiredParametersError([hwid, user_id], "Either hwid or user id have to be provided"))
+            raise(RequiredParametersError([hwid, user_id], "Either hwid or user id have to be provided"))
 
         uri = "setTags"
         request = {
