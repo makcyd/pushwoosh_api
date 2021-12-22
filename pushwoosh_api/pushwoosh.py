@@ -269,7 +269,7 @@ class Pushwoosh:
         request = {
             "devices_filter": devices_filter
         }
-        return self._send_request(uri=uri, request=request)
+        return self._send_request(uri=uri, request=request).get("response", {}).get("request_id", None)
 
     def get_inbox_messages(self, application, user_id, hwid, last_code=None, count=0):
         """
@@ -557,7 +557,7 @@ class Pushwoosh:
         :return: response object
         """
         if hwid is None and user_id is None:
-            raise(RequiredParametersError([hwid, user_id], "Either hwid or user id have to be provided"))
+            raise (RequiredParametersError([hwid, user_id], "Either hwid or user id have to be provided"))
 
         uri = "setTags"
         request = {
