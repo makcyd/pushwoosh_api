@@ -269,7 +269,12 @@ class Pushwoosh:
         request = {
             "devices_filter": devices_filter
         }
-        return self._send_request(uri=uri, request=request).get("response", {}).get("request_id", None)
+
+        result = self._send_request(uri=uri, request=request)
+        if result.get("response") is not None:
+            return result.get("response").get("request_id")
+        else:
+            return result
 
     def get_inbox_messages(self, application, user_id, hwid, last_code=None, count=0):
         """
