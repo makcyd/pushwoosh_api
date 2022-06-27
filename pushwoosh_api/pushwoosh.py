@@ -668,3 +668,13 @@ class Pushwoosh:
 
             if pagination_token is None:
                 return
+
+    def register_email_user(self, email, user_id, application, tz_offset=None):
+        uri = "registerEmailUser"
+        request = {
+            "application": application,
+            "email": email,
+            "userId": user_id,
+            "tz_offset": tz_offset
+        }
+        return self._send_request(uri=uri, request=request)
